@@ -1,30 +1,27 @@
 import json
 import socket
-import ipaddress
 
-def familiaIP(host):
+def familiaIP(ip):
     try:
-        ip = ipaddress.ip_address(host) #cria o objeto ip
-
-        if isinstance(ip,ipaddress.IPv4Address):
-            return socket.AF_INET #endereço ipv4
-        elif isinstance(ip,ipaddress.IPv6Address):
-            return socket.AF_INET6 #endereço ipv6
+        if ':' in ip:
+            return socket.AF_INET6 #ipv6
+        else:
+            return socket.AF_INET #ipv4
     except ValueError:
-        raise ValueError(f"IP inválido: {host}") 
+        raise ValueError(f"IP inválido: {ip}") 
     
-def createSocket(protocolo, host, porta):
-    familia = familiaIP(host) #puxa a familia da função
+def createSocket(protocolo, ip, porta):
+    familia = familiaIP(ip) #puxa a familia da função
     if protocolo.lower() == 'tcp':
-        tipoSocket = socket.SOCK_STREAM
+        tipo = socket.SOCK_STREAM
     else:
-        tipoSocket = socket.SOCK_DGRAM #tipo udp
+        tipo = socket.SOCK_DGRAM #tipo udp
     
-    sock = socket.socket(familia, tipoSocket) #cria o socket e recebe os dados
+    sock = socket.socket(familia, tipo) #cria o socket e recebe os dados
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #previne erro de endereço já utilizado
     return sock
 
-def enviarDados(sock, dados, protocolo, endOponente = None):
+def enviarMsg(sock, dados, protocolo, endOponente = None):
     enviar = json.dumps(dados).encode('UTF-8') #serializa os dados
     try:
         if protocolo.lower() == 'tcp': #tcp já tem o endereço da conexão
@@ -37,15 +34,15 @@ def enviarDados(sock, dados, protocolo, endOponente = None):
         return False
     return True
 
-def receberDados(sock, protocolo, buffer = 1024):
+def receberMsg(sock, protocolo):
     try:
         if protocolo.lower() == 'tcp':
-            enviar = sock.recv(buffer) #recebe os dados do socket
+            enviar = sock.recv(1024) #recebe os dados do socket
             if not enviar:
                 return None, None
             endOponente = None #não precisa
         else:
-            enviar, endOponente = sock.recvfrom(buffer)
+            enviar, endOponente = sock.recvfrom(1024)
         
         dados = json.loads(enviar.decode('utf-8')) #desserializa
         return dados, endOponente
