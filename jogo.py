@@ -29,22 +29,22 @@ class jogo:
         j2 = self.mov[1]
 
         vencedor = -1  # pedra papel, tesoura 
-        if j1 == "R" and j2 == "tesoura": 
+        if j1 == "pedra" and j2 == "tesoura": 
             vencedor = 0
             print("O jogador 1 Venceu!")
-        elif j1 == "T" and j2 == "pedra":  
+        elif j1 == "tesoura" and j2 == "pedra":  
             vencedor = 1 
             print("O jogador 2 Venceu!")
-        elif j1 == "P" and j2 == "pedra": 
+        elif j1 == "papel" and j2 == "pedra": 
             vencedor = 0 
             print("O jogador 1 Venceu!")
-        elif j1 == "R" and j2 == "papel":
+        elif j1 == "pedra" and j2 == "papel":
             vencedor = 1 
             print("O jogador 2 Venceu!")
-        elif j1 == "T" and j2 == "papel": 
+        elif j1 == "tesoura" and j2 == "papel": 
             vencedor = 0 
             print("O jogador 1 Venceu!")
-        elif j1 == "P" and j2 == "tesoura": 
+        elif j1 == "papel" and j2 == "tesoura": 
             vencedor = 1
             print("O jogador 2 Venceu!")
         elif j1 == j2: 
