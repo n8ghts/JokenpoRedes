@@ -12,7 +12,7 @@ class jogo:
         return self.mov[j]
     
     def jogador(self, jogador, move): #atualiza os movimentos com a jogada do jogador  
-        self.mov[jogador] = move
+        self.mov[jogador] = move.strip().lower()
         if jogador == 0: 
             self.j1Went = True 
         else: 
@@ -25,26 +25,26 @@ class jogo:
         return self.j1Went and self.j2Went 
     
     def vencedor(self):   #define quem ganhou o jogo 
-        j1 = self.mov[0].upper() [0] 
-        j2 = self.mov[1].upper() [0]
+        j1 = self.mov[0]
+        j2 = self.mov[1]
 
-        vencedor = -1  # R = Rocha, P = Papel, T = Tesoura 
-        if j1 == "R" and j2 == "T": 
+        vencedor = -1  # pedra papel, tesoura 
+        if j1 == "R" and j2 == "tesoura": 
             vencedor = 0
             print("O jogador 1 Venceu!")
-        elif j1 == "T" and j2 == "R":  
+        elif j1 == "T" and j2 == "pedra":  
             vencedor = 1 
             print("O jogador 2 Venceu!")
-        elif j1 == "P" and j2 == "R": 
+        elif j1 == "P" and j2 == "pedra": 
             vencedor = 0 
             print("O jogador 1 Venceu!")
-        elif j1 == "R" and j2 == "P":
+        elif j1 == "R" and j2 == "papel":
             vencedor = 1 
             print("O jogador 2 Venceu!")
-        elif j1 == "T" and j2 == "P": 
+        elif j1 == "T" and j2 == "papel": 
             vencedor = 0 
             print("O jogador 1 Venceu!")
-        elif j1 == "P" and j2 == "T": 
+        elif j1 == "P" and j2 == "tesoura": 
             vencedor = 1
             print("O jogador 2 Venceu!")
         elif j1 == j2: 
